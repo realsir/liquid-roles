@@ -11,402 +11,400 @@
 
   <style>
     :root{
-      --bg: #ffffff;
-      --ink: #0f172a;
-
-      --grid: rgba(15, 23, 42, 0.12);
-      --grid-strong: rgba(15, 23, 42, 0.18);
-      --edge: rgba(15,23,42,.30);
-
-      --liquid: #33a7ff;
-
-      --eduGuild: #f59e0b;
-      --orator: #fb923c;
-      --frame: #b45309;
-      --drip: #7dd3fc;
-
-      --designGuild: #38bdf8;
-      --sculptor: #00c2ff;
-      --sketch: #374151;
-      --inkblue: #2563eb;
-
-      --traderGuild: #60a5fa;
-      --specText: rgba(245, 252, 255, 0.98);
-      --specGlow: rgba(51,167,255,.55);
-      --degen: #fca5a5;
-      --tide: #1d4ed8;
-
-      --toggleTrack: rgba(15,23,42,.12);
-      --toggleBorder: rgba(15,23,42,.14);
-      --toggleKnob: #ffffff;
-    }
-
-    [data-theme="dark"]{
-      --bg: #070a12;
+      --bg: #06070b;
       --ink: rgba(255,255,255,.92);
+      --grid: rgba(255,255,255,.08);
+      --grid-strong: rgba(255,255,255,.13);
+      --edge: rgba(255,255,255,.22);
 
-      --grid: rgba(255,255,255, 0.12);
-      --grid-strong: rgba(255,255,255, 0.18);
-      --edge: rgba(255,255,255,.34);
-
-      --toggleTrack: rgba(255,255,255,.14);
-      --toggleBorder: rgba(255,255,255,.18);
-      --toggleKnob: rgba(255,255,255,.95);
+      --liquid: #36a9ff;
+      --eye: #ffffff;
+      --contributor: #b87333;
+      --inner: #0f3b22;
     }
 
-    *{ box-sizing: border-box; }
-    html, body { height: 100%; }
+    *{ box-sizing:border-box; }
+    html, body{ width:100%; height:100%; }
     body{
-      margin: 0;
-      font-family: "Nunito", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-      overflow: hidden;
-    }
-
-    .topbar{
-      position: fixed;
-      top: 12px;
-      right: 12px;
-      z-index: 10;
-      pointer-events: none;
-    }
-    .toggle{
-      pointer-events: auto;
-      display: inline-flex;
-      align-items: center;
-      padding: 6px;
-      border-radius: 999px;
-      background: color-mix(in oklab, var(--bg), transparent 12%);
-      border: 1px solid color-mix(in oklab, var(--toggleBorder), transparent 10%);
-      backdrop-filter: blur(8px);
-      box-shadow: 0 14px 50px rgba(0,0,0,.10);
-      user-select: none;
-    }
-    .toggle-btn{
-      width: 46px;
-      height: 24px;
-      border-radius: 999px;
-      border: 1px solid var(--toggleBorder);
-      background: var(--toggleTrack);
-      position: relative;
-      cursor: pointer;
-      padding: 0;
-      appearance: none;
-      outline: none;
-    }
-    .toggle-btn::before{
-      content: "";
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: 18px;
-      height: 18px;
-      border-radius: 999px;
-      background: var(--toggleKnob);
-      box-shadow: 0 10px 22px rgba(0,0,0,.16);
-      transform: translateX(0);
-      transition: transform .22s cubic-bezier(.2,.9,.2,1);
-    }
-    [data-theme="dark"] .toggle-btn::before{
-      transform: translateX(22px);
-    }
-
-    .bg{
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      filter: url(#wavyGrid);
-      transform: translateZ(0);
-      opacity: 0.98;
-    }
-    .grid-line{
-      fill: none;
-      stroke: var(--grid);
-      stroke-width: 1;
-      shape-rendering: geometricPrecision;
-    }
-    .grid-line.strong{
-      stroke: var(--grid-strong);
-      stroke-width: 1.15;
+      margin:0;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at center, rgba(54,169,255,.10), transparent 36%),
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.04), transparent 22%),
+        linear-gradient(180deg, #05060a, #090b12 55%, #06070b);
+      color:var(--ink);
+      font-family:"Nunito", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
 
     .stage{
-      position: relative;
-      z-index: 1;
-      height: 100%;
-      display: grid;
-      place-items: center;
-      padding: 28px;
+      position:relative;
+      width:100%;
+      height:100%;
+    }
+
+    .bg, .tree, .flash, .burst-layer, .new-layer{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+    }
+
+    .bg{
+      z-index:0;
+      pointer-events:none;
+      filter:url(#wavyGrid);
+      opacity:.98;
+    }
+
+    .grid-line{
+      fill:none;
+      stroke:var(--grid);
+      stroke-width:1;
+      shape-rendering:geometricPrecision;
+    }
+    .grid-line.strong{
+      stroke:var(--grid-strong);
+      stroke-width:1.1;
     }
 
     .intro{
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 24px;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 2s ease, transform 2s ease;
+      position:absolute;
+      inset:0;
+      z-index:2;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      opacity:0;
+      transform:translateY(14px) scale(.98);
+      transition:opacity 1.2s ease, transform 1.2s ease;
+      pointer-events:none;
     }
-    .intro.show{ opacity: 1; transform: translateY(0); }
-    .intro.hide{ opacity: 0; transform: translateY(-10px); }
+    .intro.show{
+      opacity:1;
+      transform:translateY(0) scale(1);
+    }
+    .intro.hide{
+      opacity:0;
+      transform:translateY(-10px) scale(1.02);
+    }
     .intro h1{
-      margin: 0;
-      font-size: clamp(34px, 5.5vw, 64px);
-      font-weight: 900;
-      letter-spacing: 0.02em;
-      color: color-mix(in oklab, var(--ink), transparent 8%);
-      text-shadow: 0 10px 30px rgba(0,0,0,.12);
+      margin:0;
+      font-size:clamp(38px, 6vw, 72px);
+      font-weight:900;
+      letter-spacing:.03em;
+      color:var(--liquid);
+      text-shadow:
+        0 0 12px rgba(54,169,255,.35),
+        0 0 26px rgba(54,169,255,.22),
+        0 10px 30px rgba(0,0,0,.28);
+      filter:url(#wavyText);
     }
 
     .tree{
-      width: min(1240px, 96vw);
-      height: min(780px, 90vh);
-      opacity: 0;
-      transition: opacity 1.2s ease;
-      touch-action: none;
+      z-index:1;
+      opacity:0;
+      transition:opacity 1s ease;
+      touch-action:none;
     }
-    .tree.show{ opacity: 1; }
+    .tree.show{ opacity:1; }
 
     .edge{
-      fill: none;
-      stroke: var(--edge);
-      stroke-width: 2.05;
-      stroke-linecap: round;
-      stroke-dasharray: 3 7;
-      opacity: .70;
-      animation: edgeBreathe 9s ease-in-out infinite;
-      pointer-events: none;
+      fill:none;
+      stroke:var(--edge);
+      stroke-width:2.1;
+      stroke-linecap:round;
+      stroke-dasharray:4 8;
+      opacity:.65;
+      animation: edgeBreathe 8s ease-in-out infinite;
+      pointer-events:none;
     }
     @keyframes edgeBreathe{
-      0%,100%{ opacity: .52; stroke-dashoffset: 0; }
-      50%{ opacity: .84; stroke-dashoffset: -12; }
+      0%,100%{ opacity:.45; stroke-dashoffset:0; }
+      50%{ opacity:.9; stroke-dashoffset:-14; }
     }
 
     .label{
-      font-weight: 900;
-      font-size: 22px;
-      dominant-baseline: middle;
-      text-anchor: middle;
-
-      paint-order: stroke;
-      stroke: color-mix(in oklab, var(--bg), transparent 10%);
+      font-weight:900;
+      font-size:22px;
+      dominant-baseline:middle;
+      text-anchor:middle;
+      paint-order:stroke;
+      stroke: rgba(5,6,10,.82);
       stroke-width: 6px;
-      stroke-linejoin: round;
-
-      cursor: grab;
-      pointer-events: all;
+      stroke-linejoin:round;
+      pointer-events:all;
+      cursor:grab;
+      filter:url(#wavyText);
+      transition: transform .9s ease, opacity .9s ease, filter .9s ease;
     }
-    .label:active{ cursor: grabbing; }
+    .label:active{ cursor:grabbing; }
 
-    .small{ font-size: 18px; }
-    .root{ font-size: 26px; }
+    .root{ font-size:28px; }
 
-    .wavyText{
-      filter: url(#wavyText);
-      transform: translateZ(0);
-      animation: glowPulseSoft 7.2s ease-in-out infinite;
+    .t-liquid{ fill:var(--liquid); color:var(--liquid); }
+
+    .explode-out{
+      animation: explodeOut .9s ease-out forwards;
     }
-    @keyframes glowPulseSoft{
-      0%,100%{
-        filter:
-          url(#wavyText)
-          drop-shadow(0 0 4px color-mix(in oklab, currentColor, transparent 20%))
-          drop-shadow(0 0 10px color-mix(in oklab, currentColor, transparent 52%));
-        opacity: .93;
+
+    @keyframes explodeOut{
+      0%{
+        opacity:1;
+        transform: translate(0,0) scale(1) rotate(0deg);
+        filter:url(#wavyText) drop-shadow(0 0 0 rgba(255,255,255,0));
       }
-      50%{
-        filter:
-          url(#wavyText)
-          drop-shadow(0 0 7px color-mix(in oklab, currentColor, transparent 10%))
-          drop-shadow(0 0 18px color-mix(in oklab, currentColor, transparent 38%));
-        opacity: 1;
+      35%{
+        opacity:1;
+        transform: translate(var(--dx, 0px), var(--dy, 0px)) scale(1.25) rotate(var(--rot, 0deg));
+        filter:url(#wavyText) drop-shadow(0 0 18px rgba(255,255,255,.9)) drop-shadow(0 0 42px rgba(255,255,255,.45));
+      }
+      70%{
+        opacity:.65;
+        transform: translate(calc(var(--dx, 0px) * 1.8), calc(var(--dy, 0px) * 1.8)) scale(1.75) rotate(var(--rot, 0deg));
+        filter:url(#wavyText) drop-shadow(0 0 24px rgba(255,255,255,1)) drop-shadow(0 0 70px rgba(255,255,255,.6));
+      }
+      100%{
+        opacity:0;
+        transform: translate(calc(var(--dx, 0px) * 2.6), calc(var(--dy, 0px) * 2.6)) scale(2.2) rotate(var(--rot, 0deg));
+        filter:url(#wavyText) drop-shadow(0 0 36px rgba(255,255,255,1)) drop-shadow(0 0 90px rgba(255,255,255,.8));
       }
     }
 
-    .t-liquid{ fill: var(--liquid); color: var(--liquid); }
-
-    .t-edu{ fill: var(--eduGuild); color: var(--eduGuild); }
-    .t-orator{ fill: var(--orator); color: var(--orator); }
-    .t-frame{ fill: var(--frame); color: var(--frame); }
-    .t-drip{ fill: var(--drip); color: var(--drip); }
-
-    .t-design{ fill: var(--designGuild); color: var(--designGuild); }
-    .t-sculptor{ fill: var(--sculptor); color: var(--sculptor); }
-    .t-sketch{ fill: var(--sketch); color: var(--sketch); }
-    .t-ink{ fill: var(--inkblue); color: var(--inkblue); }
-
-    .t-trader{ fill: var(--traderGuild); color: var(--traderGuild); }
-    .t-spec{
-      fill: var(--specText);
-      color: rgba(170, 230, 255, 0.92);
-      stroke: rgba(51,167,255,.34);
-      filter: url(#wavyText) drop-shadow(0 0 12px var(--specGlow));
-      animation: glowPulseSoft 7.2s ease-in-out infinite;
+    .flash{
+      z-index:4;
+      pointer-events:none;
+      opacity:0;
+      background: radial-gradient(circle at center, rgba(255,255,255,.98), rgba(255,255,255,.72) 18%, rgba(255,255,255,.18) 42%, rgba(255,255,255,0) 70%);
+      mix-blend-mode:screen;
+      transition: opacity .7s ease;
     }
-    .t-degen{ fill: var(--degen); color: var(--degen); }
-    .t-tide{ fill: var(--tide); color: var(--tide); }
+    .flash.show{ opacity:1; }
+
+    .new-layer{
+      z-index:5;
+      opacity:0;
+      transition:opacity 1s ease;
+      pointer-events:none;
+    }
+    .new-layer.show{ opacity:1; }
+
+    .new-edge{
+      fill:none;
+      stroke:rgba(255,255,255,.18);
+      stroke-width:2;
+      stroke-linecap:round;
+      stroke-dasharray:5 9;
+      opacity:.75;
+      animation: newEdgeGlow 2.4s ease-in-out infinite;
+    }
+    @keyframes newEdgeGlow{
+      0%,100%{ opacity:.4; stroke-dashoffset:0; }
+      50%{ opacity:1; stroke-dashoffset:-16; }
+    }
+
+    .new-label{
+      font-weight:900;
+      font-size:24px;
+      dominant-baseline:middle;
+      text-anchor:middle;
+      paint-order:stroke;
+      stroke: rgba(0,0,0,.65);
+      stroke-width: 6px;
+      filter:url(#wavyText);
+      animation: blinkGlow 1.45s ease-in-out infinite;
+    }
+
+    .new-root{
+      font-size:30px;
+      fill:var(--liquid);
+      color:var(--liquid);
+      filter:url(#wavyText) drop-shadow(0 0 10px rgba(54,169,255,.65)) drop-shadow(0 0 22px rgba(54,169,255,.28));
+    }
+
+    .new-eye{
+      fill:var(--eye);
+      color:var(--eye);
+      filter:url(#wavyText) drop-shadow(0 0 8px rgba(255,255,255,.62)) drop-shadow(0 0 20px rgba(255,255,255,.28));
+    }
+
+    .new-contributor{
+      fill:var(--contributor);
+      color:var(--contributor);
+      filter:url(#wavyText) drop-shadow(0 0 8px rgba(184,115,51,.65)) drop-shadow(0 0 22px rgba(184,115,51,.30));
+    }
+
+    .new-inner{
+      fill:var(--inner);
+      color:var(--inner);
+      filter:url(#wavyText) drop-shadow(0 0 8px rgba(15,59,34,.72)) drop-shadow(0 0 22px rgba(15,59,34,.34));
+    }
+
+    @keyframes blinkGlow{
+      0%,100%{ opacity:.82; }
+      50%{ opacity:1; }
+    }
+
+    .burst-layer{
+      z-index:3;
+      pointer-events:none;
+      opacity:0;
+    }
+
+    .burst-particle{
+      position:absolute;
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      background:rgba(255,255,255,.95);
+      box-shadow:
+        0 0 10px rgba(255,255,255,.95),
+        0 0 24px rgba(255,255,255,.55);
+      transform:translate(-50%,-50%);
+      animation: particleFly .95s ease-out forwards;
+    }
+
+    @keyframes particleFly{
+      0%{
+        opacity:1;
+        transform:translate(-50%,-50%) scale(1);
+      }
+      100%{
+        opacity:0;
+        transform:translate(calc(-50% + var(--px)), calc(-50% + var(--py))) scale(0);
+      }
+    }
   </style>
 </head>
-
 <body>
-  <div class="topbar">
-    <div class="toggle" aria-label="Theme toggle">
-      <button class="toggle-btn" id="themeToggle" aria-label="Toggle theme"></button>
-    </div>
-  </div>
+  <div class="stage">
+    <svg class="bg" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <filter id="wavyGrid" x="-10%" y="-10%" width="120%" height="120%">
+          <feTurbulence id="noiseBg" type="fractalNoise" baseFrequency="0.0125 0.0125" numOctaves="2" seed="8" stitchTiles="stitch" result="turbBg" />
+          <feDisplacementMap in="SourceGraphic" in2="turbBg" scale="9" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
 
-  <svg class="bg" width="100%" height="100%" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">
-    <defs>
-      <filter id="wavyGrid" x="-10%" y="-10%" width="120%" height="120%">
-        <feTurbulence id="noiseBg"
-          type="fractalNoise"
-          baseFrequency="0.01250 0.01250"
-          numOctaves="2"
-          seed="8"
-          stitchTiles="stitch"
-          result="turbBg" />
-        <feDisplacementMap in="SourceGraphic" in2="turbBg"
-          scale="9"
-          xChannelSelector="R" yChannelSelector="G" />
-      </filter>
+        <pattern id="grid" width="38" height="38" patternUnits="userSpaceOnUse">
+          <path d="M 38 0 L 0 0 0 38" class="grid-line"></path>
+        </pattern>
 
-      <pattern id="grid" width="38" height="38" patternUnits="userSpaceOnUse">
-        <path d="M 38 0 L 0 0 0 38" class="grid-line" />
-      </pattern>
+        <pattern id="gridStrong" width="190" height="190" patternUnits="userSpaceOnUse">
+          <path d="M 190 0 L 0 0 0 190" class="grid-line strong"></path>
+        </pattern>
+      </defs>
+      <rect width="1000" height="1000" fill="url(#grid)"></rect>
+      <rect width="1000" height="1000" fill="url(#gridStrong)"></rect>
+    </svg>
 
-      <pattern id="gridStrong" width="190" height="190" patternUnits="userSpaceOnUse">
-        <path d="M 190 0 L 0 0 0 190" class="grid-line strong" />
-      </pattern>
-    </defs>
-
-    <rect x="0" y="0" width="1000" height="1000" fill="var(--bg)"></rect>
-    <rect x="0" y="0" width="1000" height="1000" fill="url(#grid)"></rect>
-    <rect x="0" y="0" width="1000" height="1000" fill="url(#gridStrong)"></rect>
-  </svg>
-
-  <main class="stage">
     <section class="intro" id="intro" aria-live="polite">
-      <div><h1>Liquid Roles</h1></div>
+      <h1>Liquid Roles</h1>
     </section>
 
     <svg class="tree" id="tree" viewBox="0 0 1200 780" role="img" aria-label="Liquid Roles tree">
       <defs>
-        <filter id="wavyText" x="-30%" y="-60%" width="160%" height="240%">
-          <feTurbulence id="noiseText"
-            type="fractalNoise"
-            baseFrequency="0.01100 0.01100"
-            numOctaves="1"
-            seed="5"
-            stitchTiles="stitch"
-            result="turbText"/>
-          <feDisplacementMap in="SourceGraphic" in2="turbText"
-            scale="2.8"
-            xChannelSelector="R" yChannelSelector="G" />
+        <filter id="wavyText" x="-30%" y="-60%" width="180%" height="240%">
+          <feTurbulence id="noiseText" type="fractalNoise" baseFrequency="0.011 0.011" numOctaves="1" seed="5" stitchTiles="stitch" result="turbText" />
+          <feDisplacementMap in="SourceGraphic" in2="turbText" scale="2.8" xChannelSelector="R" yChannelSelector="G" />
         </filter>
       </defs>
 
-      <path class="edge" data-from="root" data-to="eduGuild" />
-      <path class="edge" data-from="root" data-to="designGuild" />
-      <path class="edge" data-from="root" data-to="traderGuild" />
+      <path class="edge old-node" data-from="root" data-to="eduGuild"></path>
+      <path class="edge old-node" data-from="root" data-to="designGuild"></path>
+      <path class="edge old-node" data-from="root" data-to="traderGuild"></path>
 
-      <path class="edge" data-from="eduGuild" data-to="orator" />
-      <path class="edge" data-from="orator" data-to="frame" />
-      <path class="edge" data-from="frame" data-to="drip" />
+      <path class="edge old-node" data-from="eduGuild" data-to="orator"></path>
+      <path class="edge old-node" data-from="orator" data-to="frame"></path>
+      <path class="edge old-node" data-from="frame" data-to="drip"></path>
 
-      <path class="edge" data-from="designGuild" data-to="sculptor" />
-      <path class="edge" data-from="sculptor" data-to="sketch" />
-      <path class="edge" data-from="sketch" data-to="ink" />
+      <path class="edge old-node" data-from="designGuild" data-to="sculptor"></path>
+      <path class="edge old-node" data-from="sculptor" data-to="sketch"></path>
+      <path class="edge old-node" data-from="sketch" data-to="ink"></path>
 
-      <path class="edge" data-from="traderGuild" data-to="speculator" />
-      <path class="edge" data-from="speculator" data-to="degen" />
-      <path class="edge" data-from="degen" data-to="tide" />
+      <path class="edge old-node" data-from="traderGuild" data-to="speculator"></path>
+      <path class="edge old-node" data-from="speculator" data-to="degen"></path>
+      <path class="edge old-node" data-from="degen" data-to="tide"></path>
 
-      <text class="label root wavyText t-liquid" data-id="root" x="600" y="220">Liquid Roles</text>
+      <text class="label root t-liquid old-node" data-id="root" x="600" y="220">Liquid Roles</text>
 
-      <text class="label small wavyText t-edu" data-id="eduGuild" x="316" y="362">Educators Guild</text>
-      <text class="label small wavyText t-orator" data-id="orator" x="304" y="488">Orator</text>
-      <text class="label small wavyText t-frame" data-id="frame" x="292" y="598">Frame</text>
-      <text class="label small wavyText t-drip" data-id="drip" x="286" y="708">Drip</text>
+      <text class="label old-node" data-id="eduGuild" x="316" y="362" fill="#f59e0b" style="color:#f59e0b">Educators Guild</text>
+      <text class="label old-node" data-id="orator" x="304" y="488" fill="#fb923c" style="color:#fb923c">Orator</text>
+      <text class="label old-node" data-id="frame" x="292" y="598" fill="#b45309" style="color:#b45309">Frame</text>
+      <text class="label old-node" data-id="drip" x="286" y="708" fill="#7dd3fc" style="color:#7dd3fc">Drip</text>
 
-      <text class="label small wavyText t-design" data-id="designGuild" x="622" y="396">Designers Guild</text>
-      <text class="label small wavyText t-sculptor" data-id="sculptor" x="640" y="520">Sculptor</text>
-      <text class="label small wavyText t-sketch" data-id="sketch" x="652" y="630">Sketch</text>
-      <text class="label small wavyText t-ink" data-id="ink" x="668" y="740">Ink</text>
+      <text class="label old-node" data-id="designGuild" x="622" y="396" fill="#38bdf8" style="color:#38bdf8">Designers Guild</text>
+      <text class="label old-node" data-id="sculptor" x="640" y="520" fill="#00c2ff" style="color:#00c2ff">Sculptor</text>
+      <text class="label old-node" data-id="sketch" x="652" y="630" fill="#374151" style="color:#374151">Sketch</text>
+      <text class="label old-node" data-id="ink" x="668" y="740" fill="#2563eb" style="color:#2563eb">Ink</text>
 
-      <text class="label small wavyText t-trader" data-id="traderGuild" x="892" y="362">Traders Guild</text>
-      <text class="label small t-spec" data-id="speculator" x="910" y="488">Speculator</text>
-      <text class="label small wavyText t-degen" data-id="degen" x="922" y="598">Degen</text>
-      <text class="label small wavyText t-tide" data-id="tide" x="936" y="708">Tide</text>
+      <text class="label old-node" data-id="traderGuild" x="892" y="362" fill="#60a5fa" style="color:#60a5fa">Traders Guild</text>
+      <text class="label old-node" data-id="speculator" x="910" y="488" fill="#f5fcff" style="color:#f5fcff">Speculator</text>
+      <text class="label old-node" data-id="degen" x="922" y="598" fill="#fca5a5" style="color:#fca5a5">Degen</text>
+      <text class="label old-node" data-id="tide" x="936" y="708" fill="#1d4ed8" style="color:#1d4ed8">Tide</text>
     </svg>
-  </main>
+
+    <svg class="burst-layer" id="burstLayer" aria-hidden="true"></svg>
+
+    <svg class="new-layer" id="newLayer" viewBox="0 0 1200 780" aria-label="New Liquid Roles state">
+      <defs>
+        <filter id="wavyText2" x="-30%" y="-60%" width="180%" height="240%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.0105 0.0105" numOctaves="1" seed="7" stitchTiles="stitch" result="turbText2" />
+          <feDisplacementMap in="SourceGraphic" in2="turbText2" scale="2.6" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </defs>
+
+      <path class="new-edge" d="M 600 240 C 540 310, 455 360, 330 460"></path>
+      <path class="new-edge" d="M 600 240 C 600 330, 600 370, 600 460"></path>
+      <path class="new-edge" d="M 600 240 C 660 310, 745 360, 870 460"></path>
+
+      <text class="new-label new-root" x="600" y="220" style="filter:url(#wavyText2)">Liquid Roles</text>
+      <text class="new-label new-eye" x="330" y="455" style="filter:url(#wavyText2)">👀</text>
+      <text class="new-label new-contributor" x="600" y="455" style="filter:url(#wavyText2)">Contributor</text>
+      <text class="new-label new-inner" x="870" y="455" style="filter:url(#wavyText2)">Inner Circle</text>
+    </svg>
+
+    <div class="flash" id="flash"></div>
+  </div>
 
   <script>
     const intro = document.getElementById('intro');
     const tree = document.getElementById('tree');
-
-    setTimeout(() => intro.classList.add('show'), 1000);
-    setTimeout(() => {
-      intro.classList.remove('show');
-      intro.classList.add('hide');
-    }, 1000 + 2000 + 1000);
-    setTimeout(() => {
-      intro.style.display = 'none';
-      tree.classList.add('show');
-    }, 1000 + 2000 + 1000 + 2000);
-
-    const btn = document.getElementById('themeToggle');
-    const root = document.documentElement;
-
-    function setTheme(next){
-      root.setAttribute('data-theme', next);
-      try { localStorage.setItem('theme', next); } catch(e) {}
-    }
-    function getTheme(){
-      try { return localStorage.getItem('theme'); } catch(e) { return null; }
-    }
-    const savedTheme = getTheme();
-    if (savedTheme === 'dark' || savedTheme === 'light') setTheme(savedTheme);
-
-    btn.addEventListener('click', () => {
-      const cur = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-      setTheme(cur === 'dark' ? 'light' : 'dark');
-    });
+    const flash = document.getElementById('flash');
+    const burstLayer = document.getElementById('burstLayer');
+    const newLayer = document.getElementById('newLayer');
 
     const noiseBg = document.getElementById('noiseBg');
     const noiseText = document.getElementById('noiseText');
 
-    const speed = (2 * Math.PI) / 3.0;
-    const bgBase = 0.0125, bgAmp  = 0.00105;
-    const textBase = 0.0110, textAmp  = 0.00055;
+    setTimeout(() => intro.classList.add('show'), 400);
+    setTimeout(() => {
+      intro.classList.remove('show');
+      intro.classList.add('hide');
+    }, 2600);
 
-    let phase = 0, last = null;
-    let bgx = bgBase, bgy = bgBase;
-    let tx  = textBase, ty  = textBase;
+    setTimeout(() => tree.classList.add('show'), 3400);
+
+    const speed = (2 * Math.PI) / 3.0;
+    const bgBase = 0.0125, bgAmp = 0.00105;
+    const textBase = 0.0110, textAmp = 0.00055;
+    let phase = 0, last = null, bgx = bgBase, bgy = bgBase, tx = textBase, ty = textBase;
     const tau = 0.22;
 
     function animate(ts){
       if (last == null) last = ts;
       const dt = Math.min(0.05, (ts - last) / 1000);
       last = ts;
-
       phase += speed * dt;
 
       const targetBgX = bgBase + bgAmp * Math.cos(phase);
       const targetBgY = bgBase + bgAmp * Math.sin(phase);
-
-      const targetTx  = textBase + textAmp * Math.cos(phase + 0.65);
-      const targetTy  = textBase + textAmp * Math.sin(phase + 0.65);
+      const targetTx = textBase + textAmp * Math.cos(phase + 0.65);
+      const targetTy = textBase + textAmp * Math.sin(phase + 0.65);
 
       const alpha = 1 - Math.exp(-dt / tau);
       bgx += (targetBgX - bgx) * alpha;
       bgy += (targetBgY - bgy) * alpha;
-      tx  += (targetTx  - tx)  * alpha;
-      ty  += (targetTy  - ty)  * alpha;
+      tx += (targetTx - tx) * alpha;
+      ty += (targetTy - ty) * alpha;
 
       noiseBg.setAttribute('baseFrequency', bgx.toFixed(5) + ' ' + bgy.toFixed(5));
       noiseText.setAttribute('baseFrequency', tx.toFixed(5) + ' ' + ty.toFixed(5));
@@ -414,18 +412,6 @@
       requestAnimationFrame(animate);
     }
     requestAnimationFrame(animate);
-
-    const STORAGE_KEY = 'liquid_roles_positions_v2';
-
-    function loadPositions(){
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        return raw ? JSON.parse(raw) : {};
-      } catch(e) { return {}; }
-    }
-    function savePositions(map){
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(map)); } catch(e) {}
-    }
 
     function svgPointFromEvent(svg, evt){
       const pt = svg.createSVGPoint();
@@ -437,17 +423,70 @@
       return { x: p.x, y: p.y };
     }
 
-    const positions = loadPositions();
-    const nodeEls = new Map();
-    for (const el of Array.from(tree.querySelectorAll('text.label[data-id]'))){
-      nodeEls.set(el.dataset.id, el);
+    function explodeOldNodes(){
+      const nodes = Array.from(tree.querySelectorAll('.old-node'));
+      const svgBox = tree.getBoundingClientRect();
+      const cx = svgBox.width / 2;
+      const cy = svgBox.height / 2;
+
+      flash.classList.add('show');
+
+      nodes.forEach((el, i) => {
+        const x = parseFloat(el.getAttribute('x')) || 0;
+        const y = parseFloat(el.getAttribute('y')) || 0;
+        const dx = (x - 600) * 1.8 + (Math.random() * 120 - 60);
+        const dy = (y - 240) * 1.8 + (Math.random() * 120 - 60);
+        const rot = (Math.random() * 40 - 20).toFixed(1) + 'deg';
+        el.style.setProperty('--dx', dx.toFixed(1) + 'px');
+        el.style.setProperty('--dy', dy.toFixed(1) + 'px');
+        el.style.setProperty('--rot', rot);
+        el.classList.add('explode-out');
+      });
+
+      const burstCount = 46;
+      for(let i = 0; i < burstCount; i++){
+        const p = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        p.setAttribute('r', '3.2');
+        p.setAttribute('cx', '600');
+        p.setAttribute('cy', '240');
+        p.setAttribute('fill', 'white');
+        p.setAttribute('opacity', '0.95');
+        p.setAttribute('filter', 'url(#wavyText)');
+        burstLayer.appendChild(p);
+      }
+
+      const particles = Array.from(burstLayer.children);
+      particles.forEach((p, i) => {
+        const angle = (Math.PI * 2 * i) / particles.length;
+        const dist = 120 + Math.random() * 220;
+        const px = Math.cos(angle) * dist;
+        const py = Math.sin(angle) * dist;
+        p.classList.add('burst-particle');
+        p.style.left = '600px';
+        p.style.top = '240px';
+        p.style.setProperty('--px', px.toFixed(1) + 'px');
+        p.style.setProperty('--py', py.toFixed(1) + 'px');
+      });
+
+      setTimeout(() => {
+        flash.classList.remove('show');
+        burstLayer.innerHTML = '';
+        nodes.forEach(n => n.style.visibility = 'hidden');
+        tree.querySelectorAll('.edge.old-node').forEach(n => n.style.visibility = 'hidden');
+        newLayer.classList.add('show');
+      }, 900);
     }
 
+    setTimeout(explodeOldNodes, 6200);
+
+    const nodeEls = new Map();
+    for (const el of tree.querySelectorAll('text.label[data-id]')) nodeEls.set(el.dataset.id, el);
     const edges = Array.from(tree.querySelectorAll('path.edge[data-from][data-to]'));
+    const saved = {};
+    let drag = null;
 
     function getNodeXY(id){
       const el = nodeEls.get(id);
-      if (!el) return { x: 0, y: 0 };
       return {
         x: parseFloat(el.getAttribute('x')) || 0,
         y: parseFloat(el.getAttribute('y')) || 0
@@ -456,94 +495,46 @@
 
     function buildCubicEdge(a, b){
       const dx = b.x - a.x;
-      const dy = b.y - a.y;
-
-      const k = 0.35;              
-      const min = 40, max = 220;    
-      const bend = Math.max(min, Math.min(max, Math.abs(dx) * k + Math.abs(dy) * 0.10));
-
+      const bend = Math.max(50, Math.min(220, Math.abs(dx) * 0.34));
       const c1 = { x: a.x + (dx >= 0 ? bend : -bend), y: a.y };
       const c2 = { x: b.x - (dx >= 0 ? bend : -bend), y: b.y };
-
       return `M ${a.x.toFixed(2)} ${a.y.toFixed(2)} C ${c1.x.toFixed(2)} ${c1.y.toFixed(2)} ${c2.x.toFixed(2)} ${c2.y.toFixed(2)} ${b.x.toFixed(2)} ${b.y.toFixed(2)}`;
     }
 
     function rebuildEdge(path){
-      const from = path.dataset.from;
-      const to = path.dataset.to;
-      const a = getNodeXY(from);
-      const b = getNodeXY(to);
-      path.setAttribute('d', buildCubicEdge(a, b));
+      path.setAttribute('d', buildCubicEdge(getNodeXY(path.dataset.from), getNodeXY(path.dataset.to)));
     }
-
-    function rebuildAllEdges(){
-      for (const p of edges) rebuildEdge(p);
-    }
-
-    function updateEdgesFor(nodeId){
-      for (const p of edges){
-        if (p.dataset.from === nodeId || p.dataset.to === nodeId) rebuildEdge(p);
-      }
-    }
-
-    for (const [id, el] of nodeEls.entries()){
-      const savedPos = positions[id];
-      if (savedPos && Number.isFinite(savedPos.x) && Number.isFinite(savedPos.y)){
-        el.setAttribute('x', savedPos.x);
-        el.setAttribute('y', savedPos.y);
-      }
-    }
+    function rebuildAllEdges(){ edges.forEach(rebuildEdge); }
     rebuildAllEdges();
 
-    let drag = null;
-
-    function onDown(e){
+    tree.addEventListener('pointerdown', (e) => {
       const target = e.target.closest('text.label[data-id]');
       if (!target) return;
-
       target.setPointerCapture(e.pointerId);
-
-      const id = target.dataset.id;
       const p = svgPointFromEvent(tree, e);
-      const x0 = parseFloat(target.getAttribute('x')) || 0;
-      const y0 = parseFloat(target.getAttribute('y')) || 0;
-
-      drag = { id, el: target, pointerId: e.pointerId, dx: x0 - p.x, dy: y0 - p.y };
+      drag = {
+        id: target.dataset.id,
+        el: target,
+        pointerId: e.pointerId,
+        dx: (parseFloat(target.getAttribute('x')) || 0) - p.x,
+        dy: (parseFloat(target.getAttribute('y')) || 0) - p.y
+      };
       e.preventDefault();
-    }
+    });
 
-    function onMove(e){
+    tree.addEventListener('pointermove', (e) => {
       if (!drag || e.pointerId !== drag.pointerId) return;
-
       const p = svgPointFromEvent(tree, e);
-      const nx = p.x + drag.dx;
-      const ny = p.y + drag.dy;
-
-      drag.el.setAttribute('x', nx.toFixed(2));
-      drag.el.setAttribute('y', ny.toFixed(2));
-
-      updateEdgesFor(drag.id);
-
+      drag.el.setAttribute('x', (p.x + drag.dx).toFixed(2));
+      drag.el.setAttribute('y', (p.y + drag.dy).toFixed(2));
+      edges.forEach(path => {
+        if (path.dataset.from === drag.id || path.dataset.to === drag.id) rebuildEdge(path);
+      });
       e.preventDefault();
-    }
+    });
 
-    function endDrag(e){
-      if (!drag || e.pointerId !== drag.pointerId) return;
-
-      const x = parseFloat(drag.el.getAttribute('x')) || 0;
-      const y = parseFloat(drag.el.getAttribute('y')) || 0;
-      positions[drag.id] = { x, y };
-      savePositions(positions);
-
-      drag = null;
-      e.preventDefault();
-    }
-
-    tree.addEventListener('pointerdown', onDown);
-    tree.addEventListener('pointermove', onMove);
-    tree.addEventListener('pointerup', endDrag);
-    tree.addEventListener('pointercancel', endDrag);
+    tree.addEventListener('pointerup', () => { drag = null; });
+    tree.addEventListener('pointercancel', () => { drag = null; });
   </script>
 </body>
 </html>
-
